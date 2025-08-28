@@ -47,23 +47,18 @@ python demo_run.py
 - `aes_gui.py` — Tkinter GUI in a beige/brown palette.
 - `demo_run.py` — headless console demo that prints inputs/outputs.
 
-## 6) Screenshots To Capture (for your report)
-1. GUI with plaintext & key entered (use **Base64** generated key button to ensure valid length).
-2. After clicking **Encrypt →**, capture the **Ciphertext (Base64)** field.
-3. After clicking **← Decrypt**, capture the **Decrypted Plaintext** field showing the original text.
-> Windows: `Win + Shift + S` • macOS: `Shift + Cmd + 4` • Ubuntu: `Shift + PrtScr`
 
-## 7) Security Comparison
+## 6) Security Comparison
 - **Caesar/Vigenère ciphers** are substitution-based and vulnerable to **frequency analysis** and known-plaintext attacks; they offer **no modern security**.
 - **AES** is designed against these classical weaknesses, operates on binary blocks with complex transformations (SubBytes, ShiftRows, MixColumns, AddRoundKey), and—when used with proper **modes (CBC/GCM)**, **random IVs**, and **key management**—is considered **secure** for modern applications.
 
-## 8) Notes on Correctness & Safety
+## 7) Notes on Correctness & Safety
 - **Key length enforcement**: Only 16/24/32‑byte keys are accepted. The GUI can parse keys given as **Text/Hex/Base64**.
 - **Fresh IV per encryption**: Randomly generated and included in output.
 - **Padding**: **PKCS#7** via PyCryptodome utilities.
 - **Common mistakes avoided**: Reusing IVs, home‑rolled padding, or truncating ciphertext.
 
-## 9) Library Reference
+## 8) Library Reference
 - **PyCryptodome**: `Crypto.Cipher.AES`, `Crypto.Util.Padding`, `Crypto.Random`
 
 ---
