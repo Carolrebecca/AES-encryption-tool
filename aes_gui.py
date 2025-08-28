@@ -46,8 +46,7 @@ class AESApp(tk.Tk):
         header = ttk.Label(self, text="AES encryption tool", style="Header.TLabel")
         header.pack(padx=20, pady=(16, 8), anchor="w")
 
-        desc = ttk.Label(self, text="Enter plaintext and a 16/24/32-byte key. Encrypt to Base64; decrypt back to verify.", style="SubHeader.TLabel")
-        desc.pack(padx=22, pady=(0, 16), anchor="w")
+        
 
         # Main grid container
         container = ttk.Frame(self, style="Card.TFrame", padding=16)
@@ -65,7 +64,7 @@ class AESApp(tk.Tk):
         right.grid(row=0, column=1, sticky="nsew", padx=(8, 0))
 
         # --- Left side content ---
-        ttk.Label(left, text="Plaintext Input").grid(row=0, column=0, sticky="w")
+        ttk.Label(left, text="Input").grid(row=0, column=0, sticky="w")
         self.plaintext = ScrolledText(left, height=10, wrap="word", background="white", foreground=PALETTE["text"], insertbackground=PALETTE["text"])
         self.plaintext.grid(row=1, column=0, sticky="nsew", pady=(4, 12))
         left.rowconfigure(1, weight=1)
@@ -75,29 +74,31 @@ class AESApp(tk.Tk):
         key_frame.grid(row=2, column=0, sticky="ew", pady=(4, 12))
         key_frame.columnconfigure(1, weight=1)
 
-        ttk.Label(key_frame, text="Key (16/24/32 bytes)").grid(row=0, column=0, sticky="w", padx=(0, 8))
-        self.key_entry = ttk.Entry(key_frame, width=48, style="Key.TEntry")
-        self.key_entry.grid(row=0, column=1, sticky="ew", pady=(0, 6))
-
         self.key_encoding = tk.StringVar(value="text")
-        ttk.Label(key_frame, text="Key Encoding:").grid(row=1, column=0, sticky="w")
+        ttk.Label(key_frame, text="Key Encoding:").grid(row=0, column=0, sticky="w")
         enc_frame = ttk.Frame(key_frame, style="Card.TFrame")
-        enc_frame.grid(row=1, column=1, sticky="w", pady=4)
+        enc_frame.grid(row=0, column=1, sticky="w", pady=4)
         for val, lbl in (("text", "Text"), ("hex", "Hex"), ("base64", "Base64")):
             ttk.Radiobutton(enc_frame, text=lbl, value=val, variable=self.key_encoding).pack(side="left", padx=(0, 8))
 
-        ttk.Label(key_frame, text="Quick Keygen:").grid(row=2, column=0, sticky="w", pady=(6, 0))
+        ttk.Label(key_frame, text="Quick Keygen:").grid(row=1, column=0, sticky="w", pady=(6, 0))
         btns = ttk.Frame(key_frame, style="Card.TFrame")
-        btns.grid(row=2, column=1, sticky="w", pady=(6, 0))
+        btns.grid(row=1, column=1, sticky="w", pady=(6, 0))
         ttk.Button(btns, text="128-bit", command=lambda: self._gen_key(128)).pack(side="left", padx=(0, 6))
         ttk.Button(btns, text="192-bit", command=lambda: self._gen_key(192)).pack(side="left", padx=6)
         ttk.Button(btns, text="256-bit", command=lambda: self._gen_key(256)).pack(side="left", padx=6)
+
+        # Moved Key entry BELOW Quick Keygen
+        ttk.Label(key_frame, text="Key (16/24/32 bytes)").grid(row=2, column=0, sticky="w", padx=(0, 8), pady=(6, 0))
+        self.key_entry = ttk.Entry(key_frame, width=48, style="Key.TEntry")
+        self.key_entry.grid(row=2, column=1, sticky="ew", pady=(6, 6))
 
         # Action buttons
         action_frame = ttk.Frame(left, style="Card.TFrame")
         action_frame.grid(row=3, column=0, sticky="ew", pady=(4, 0))
         ttk.Button(action_frame, text="Encrypt →", command=self.do_encrypt).pack(side="left", padx=(0, 10))
         ttk.Button(action_frame, text="← Decrypt", command=self.do_decrypt).pack(side="left", padx=10)
+        ttk.Button(action_frame, text="ALL CLEAR", command=self.do_clear).pack(side="left", padx=10)  # NEW button
 
         # --- Right side content ---
         ttk.Label(right, text="Ciphertext (Base64, includes IV)").grid(row=0, column=0, sticky="w")
@@ -171,6 +172,14 @@ class AESApp(tk.Tk):
         except Exception as e:
             self.status.set(f"Decryption error: {e}")
             messagebox.showerror("Decryption Error", str(e))
+
+    def do_clear(self):
+        """Clear all text boxes and key entry."""
+        self.plaintext.delete("1.0", "end")
+        self.ciphertext.delete("1.0", "end")
+        self.decrypted.delete("1.0", "end")
+        self.key_entry.delete(0, "end")
+        self.status.set("Cleared all fields.")
 
 
 if __name__ == "__main__":
