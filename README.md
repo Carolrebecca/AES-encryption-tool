@@ -1,6 +1,4 @@
-# AES in Python (PyCryptodome) — GUI + Report
-
-> Palette: **beige/brown**. GUI uses AES-CBC with PKCS7 padding and Base64 output that includes the IV.
+# AES in Python (PyCryptodome) — GUI Report
 
 ---
 
