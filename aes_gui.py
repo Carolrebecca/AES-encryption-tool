@@ -1,10 +1,3 @@
-# GUI for AES (CBC + PKCS7) using PyCryptodome
-# Palette: beige/brown theme
-# - Background: #F5F0E6 (beige)
-# - Accent:     #B08968 (tan)
-# - Dark:       #6B4F3B (brown)
-# - Light:      #FFF8EE (light beige)
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.scrolledtext import ScrolledText
@@ -25,7 +18,7 @@ PALETTE = {
 class AESApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("AES Encrypt/Decrypt — PyCryptodome (CBC + PKCS7)")
+        self.title("AES Encrypt/Decrypt model")
         self.configure(bg=PALETTE["bg"])
         self.minsize(900, 640)
 
@@ -50,7 +43,7 @@ class AESApp(tk.Tk):
 
     def _build_widgets(self):
         # Header
-        header = ttk.Label(self, text="Advanced Encryption Standard (AES) — CBC mode with PKCS7 Padding", style="Header.TLabel")
+        header = ttk.Label(self, text="AES encryption tool", style="Header.TLabel")
         header.pack(padx=20, pady=(16, 8), anchor="w")
 
         desc = ttk.Label(self, text="Enter plaintext and a 16/24/32-byte key. Encrypt to Base64; decrypt back to verify.", style="SubHeader.TLabel")
